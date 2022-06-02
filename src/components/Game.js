@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Board from "./Board";
 
 import Message from "./Message";
@@ -32,14 +32,29 @@ const Game = () => {
   const [input, setInput] = useState("");
   const [input2, setInput2] = useState("");
   const [message, setMessage] = useState("Click to Start");
-  const [pos, setPos] = useState("");
-
-  console.log(players);
+  const [pos, setPos] = useState([]);
+  const [sec, setSec] = useState(new Date().toISOString().slice(11, 19));
 
   const play = () => {
     setBoard(Array(9).fill(""));
     setMessage("Click to start");
     setIsPlayer("X");
+  };
+
+  useEffect(() => {
+    const timer = setInterval(
+      () => setSec(new Date().toISOString().slice(11, 19)),
+      1000
+    );
+
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
+  const time = () => {
+    let a = new Date().toISOString();
+    return a.slice(11, 19);
   };
 
   const handleInput = (pos) => {
@@ -50,6 +65,7 @@ const Game = () => {
     const boardCopy = [...board];
     boardCopy[pos] = isPlayer;
     setBoard(boardCopy);
+    setPos(`${[...boardCopy[pos], pos]} ${time()}`);
 
     if (isWon(boardCopy)) {
       setMessage(`WON: ${isPlayer === "X" ? players[0] : players[1]}`);
@@ -94,6 +110,26 @@ const Game = () => {
       </div>
       <Board onClick={handleInput} value={board} />
       <Play onClick={play} value={"Play"} />
+      <p
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignText: "center",
+          marginTop: "50px",
+        }}
+      >
+        {JSON.stringify(sec).slice(1, 9)}
+      </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignText: "center",
+          marginTop: "100px",
+        }}
+      >
+        {[pos]}
+      </div>
     </div>
   );
 };

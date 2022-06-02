@@ -4,7 +4,7 @@ import Box from "./Box";
 const style = {
   width: "250px",
   height: "250px",
-  margin: "0 auto",
+  margin: "10px auto",
   display: "grid",
   gridTemplate: "repeat(3, 1fr) / repeat(3, 1fr)",
 };

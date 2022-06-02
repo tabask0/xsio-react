@@ -2,6 +2,8 @@ import React from "react";
 
 const style = {
   border: "3px solid black",
+  borderRadius: "5px",
+  margin: "1px",
   fontSize: "40px",
 };
 
